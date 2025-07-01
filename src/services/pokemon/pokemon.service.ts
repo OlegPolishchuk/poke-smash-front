@@ -1,0 +1,66 @@
+import { PokemonApi } from '@/api/pokemon/pokemon.api.ts';
+
+export const MAX_POKEMON_COUNT = 1025;
+
+const BACKGROUND_MAP = {
+  bug: ['forest'],
+  dark: ['city'],
+  dragon: ['space'],
+  electric: ['thunderplains'],
+  fairy: ['space'],
+  fighting: ['city', 'meadow'],
+  fire: ['volcanocave', 'desert'],
+  flying: ['mountain', 'route'],
+  ghost: ['earthycave'],
+  grass: ['meadow'],
+  ground: ['mountain', 'earthycave', 'route'],
+  ice: ['icecave'],
+  normal: ['route', 'city'],
+  poison: ['earthycave'],
+  psychic: ['city', 'spl'],
+  rock: ['mountain', 'earthycave'],
+  steel: ['mountain'],
+  water: ['beach', 'beachshore', 'river', 'deepsea'],
+};
+
+export const PokemonService = {
+  async getPokemon(id?: number) {
+    try {
+      const pokemon = await PokemonApi.getPokemon(id ?? this.getRandomPokemonId());
+
+      return pokemon.data;
+    } catch (error) {
+      console.log('error =>', error);
+      throw new Error(error as string);
+    }
+  },
+
+  like(pokemon_id: number) {
+    return PokemonApi.like(pokemon_id);
+  },
+
+  dislike(pokemon_id: number) {
+    return PokemonApi.like(pokemon_id);
+  },
+
+  async getPokemonSpecies(id: number) {
+    try {
+      const pokemonSpecies = await PokemonApi.getPokemonSpecies(id);
+
+      return pokemonSpecies.data;
+    } catch (error) {
+      console.log('error =>', error);
+      throw new Error(error as string);
+    }
+  },
+
+  getRandomPokemonId() {
+    return Math.floor(Math.random() * MAX_POKEMON_COUNT);
+  },
+
+  getPokemonBackground(type: string) {
+    return BACKGROUND_MAP[type as keyof typeof BACKGROUND_MAP][
+      Math.floor(Math.random() * BACKGROUND_MAP[type as keyof typeof BACKGROUND_MAP].length)
+    ];
+  },
+};

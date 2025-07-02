@@ -10,6 +10,8 @@ import { Motion } from 'motion-v';
 import { getRandomCardAngle } from '@/lib/utils.ts';
 import SmashButton from '@/ui/components/smash-button/smash-button.vue';
 import PassButton from '@/ui/components/pass-button/pass-button.vue';
+import PokemonStatistic from '@/ui/components/pokemon-statistic/pokemon-statistic.vue';
+import { usePokemonStore } from '@/stores/pokemon.store.ts';
 
 interface AnimationProps {
   scale?: number;
@@ -28,13 +30,9 @@ const randomPokemonId = ref(PokemonService.getRandomPokemonId());
 const initialAnimation = ref<AnimationProps>({ scale: 0, y: '-100%', x: 0 });
 const animationValue = ref<AnimationProps>({ scale: 1, y: 0, rotate: cartAngle.value });
 
-const constraintsRef = ref<HTMLDivElement>();
-
-const loading = ref(false);
+const pokeStore = usePokemonStore();
 
 watchEffect(async () => {
-  loading.value = true;
-
   const promises = await Promise.all([
     PokemonService.getPokemon(randomPokemonId.value),
     PokemonService.getPokemonSpecies(randomPokemonId.value),
@@ -49,11 +47,11 @@ watchEffect(async () => {
     y: 0,
     rotate: cartAngle.value,
   };
-
-  loading.value = false;
 });
 
 const handleChangePokemon = async (action: 'pass' | 'smash') => {
+  pokeStore.setPrevious(pokemon.value!);
+
   const isPass = action === 'pass';
   const rotateAngle = isPass ? -40 : 40;
 
@@ -115,10 +113,7 @@ const handleChangePokemon = async (action: 'pass' | 'smash') => {
           damping: 20,
           delay: 0.2,
         }"
-        :press="{ scale: 1.05 }"
-        drag="x"
-        :drag-snap-to-origin="true"
-        :drag-constraints="constraintsRef"
+        :press="{ scale: 1.05, rotate: 0 }"
       >
         <PokemonCard :pokemon="pokemon" :pokemon-species="pokemonSpecies" :card-style="cardStyle" />
       </Motion>
@@ -133,6 +128,8 @@ const handleChangePokemon = async (action: 'pass' | 'smash') => {
         <PassButton :pokemon-id="pokemon.id" @click="handleChangePokemon('pass')" />
         <SmashButton :pokemon-id="pokemon.id" @click="handleChangePokemon('smash')" />
       </div>
+
+      <PokemonStatistic :card-style="cardStyle" />
     </template>
   </main>
 </template>

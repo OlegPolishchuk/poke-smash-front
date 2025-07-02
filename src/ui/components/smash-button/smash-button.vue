@@ -31,7 +31,7 @@ const handleSmash = async () => {
 </script>
 
 <template>
-  <Button variant="action" :disabled="loading" class="hover:bg-action-smash" @click="handleSmash"
+  <Button variant="action" :disabled="loading" @click="handleSmash"
     >Smash
     <Badge variant="smash">{{ userStore.smashCount }}</Badge>
   </Button>

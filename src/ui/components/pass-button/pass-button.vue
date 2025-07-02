@@ -30,7 +30,7 @@ const handlePass = async () => {
 </script>
 
 <template>
-  <Button variant="action" :disabled="loading" class="hover:bg-action-pass" @click="handlePass"
+  <Button variant="action" :disabled="loading" class="border-dislike" @click="handlePass"
     >Pass
     <Badge variant="pass">{{ userStore.passCount }}</Badge>
   </Button>

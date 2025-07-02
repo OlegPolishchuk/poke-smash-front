@@ -5,7 +5,7 @@ import { AuthApi } from '@/api/auth/auth.api.ts';
 
 type Action = 'likes' | 'dislikes';
 
-export const useUserStore = defineStore('counter', () => {
+export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null);
   const loading = ref(false);
 

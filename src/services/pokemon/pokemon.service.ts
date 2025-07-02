@@ -23,6 +23,27 @@ const BACKGROUND_MAP = {
   water: ['beach', 'beachshore', 'river', 'deepsea'],
 };
 
+export const TYPE_COLOR_MAP: Record<string, string> = {
+  bug: 'lime-600',
+  dark: 'black',
+  dragon: 'indigo-600',
+  electric: 'yellow-600',
+  fairy: 'pink-600',
+  fighting: 'red-600',
+  fire: 'orange-600',
+  flying: 'sky-600',
+  ghost: 'purple-600',
+  grass: 'green-600',
+  ground: 'amber-600',
+  normal: 'neutral-600',
+  poison: 'violet-600',
+  rock: 'stone-600',
+  steel: 'zinc-600',
+  water: 'blue-600',
+
+  default: 'foreground',
+};
+
 export const PokemonService = {
   async getPokemon(id?: number) {
     try {

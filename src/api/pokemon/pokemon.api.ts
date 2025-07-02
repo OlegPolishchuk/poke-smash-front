@@ -8,6 +8,15 @@ export interface ActionResponse {
   id: string;
 }
 
+export interface PokemonStatistic extends ActionResponse {
+  likes: number;
+  disliked: number;
+  id: string;
+  pokemon_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export const PokemonApi = {
   getPokemon(id: number) {
     return api.get<Pokemon>(`/api/pokemon/${id}`);
@@ -26,4 +35,8 @@ export const PokemonApi = {
   getPokemonSpecies(id: number) {
     return api.get<PokemonSpecies>(`/api/pokemon/species/${id}`);
   },
+
+  getPokemonStatistic(id: number) {
+    return api.get<PokemonStatistic>(`/api/pokemon/statistic/${id}`)
+  }
 };

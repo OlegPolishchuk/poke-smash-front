@@ -12,6 +12,7 @@ import SmashButton from '@/ui/components/smash-button/smash-button.vue';
 import PassButton from '@/ui/components/pass-button/pass-button.vue';
 import PokemonStatistic from '@/ui/components/pokemon-statistic/pokemon-statistic.vue';
 import { usePokemonStore } from '@/stores/pokemon.store.ts';
+import { Input } from '@/ui/components/ui/input';
 
 interface AnimationProps {
   scale?: number;
@@ -87,6 +88,15 @@ const handleChangePokemon = async (action: 'pass' | 'smash') => {
     opacity: 1,
   };
 };
+
+const handleChangePokemonNumber = (event: InputEvent) => {
+  const target = (<HTMLInputElement>event.target);
+  const value = target.value;
+
+  pokeStore.setPrevious(pokemon.value!);
+  randomPokemonId.value = +value;
+}
+
 </script>
 
 <template>
@@ -120,7 +130,14 @@ const handleChangePokemon = async (action: 'pass' | 'smash') => {
 
       <h3 class="scroll-m-20 text-2xl font-semibold tracking-tight flex items-center gap-2">
         Pokemon
-        <span class="text-3xl font-semibold tracking-tight text-primary">{{ pokemon?.id }}</span>
+        <Input
+          :model-value="randomPokemonId"
+          class="w-[90px] md:text-2xl font-semibold! tracking-tight! text-primary"
+          name="pokemon_id"
+          type="number"
+          :max="MAX_POKEMON_COUNT"
+          @input="handleChangePokemonNumber"
+        />
         from {{ MAX_POKEMON_COUNT }}
       </h3>
 

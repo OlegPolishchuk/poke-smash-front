@@ -98,4 +98,15 @@ export const PokemonService = {
       Math.floor(Math.random() * BACKGROUND_MAP[type as keyof typeof BACKGROUND_MAP].length)
     ];
   },
+
+  async getPokemonStatistic(id: number) {
+    try {
+      const stats = await PokemonApi.getPokemonStatistic(id);
+
+      return stats.data;
+    } catch (error) {
+      console.log('error =>', error);
+      throw new Error(error as string);
+    }
+  }
 };

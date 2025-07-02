@@ -10,7 +10,7 @@ function getRandomBoolean() {
 }
 
 export function getRandomCardAngle(maxAnge: number = 8) {
-  const minus = getRandomBoolean()
+  const minus = getRandomBoolean();
 
   return Number(`${minus}${Math.floor(Math.random() * maxAnge)}`);
 }

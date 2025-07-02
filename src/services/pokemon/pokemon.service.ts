@@ -35,12 +35,26 @@ export const PokemonService = {
     }
   },
 
-  like(pokemon_id: number) {
-    return PokemonApi.like(pokemon_id);
+  async like(pokemon_id: number) {
+    try {
+      const actionRes = await PokemonApi.like(pokemon_id);
+
+      return actionRes.data;
+    } catch (error) {
+      console.log('error =>', error);
+      throw new Error(error as string);
+    }
   },
 
-  dislike(pokemon_id: number) {
-    return PokemonApi.like(pokemon_id);
+  async dislike(pokemon_id: number) {
+    try {
+      const actionRes = await PokemonApi.dislike(pokemon_id);
+
+      return actionRes.data;
+    } catch (error) {
+      console.log('error =>', error);
+      throw new Error(error as string);
+    }
   },
 
   async getPokemonSpecies(id: number) {

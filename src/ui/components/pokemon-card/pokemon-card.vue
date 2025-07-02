@@ -7,7 +7,7 @@ import CardBackground from '@/ui/components/ui/card/CardBackground.vue';
 import CardImg from '@/ui/components/ui/card/CardImg.vue';
 import { Badge } from '@/ui/components/ui/badge';
 import { computed } from 'vue';
-import type { CardStyle } from '@/services/constants/constants.ts';
+import type { CardStyle } from '@/services/constants.ts';
 
 const { pokemon, pokemonSpecies, cardStyle } = defineProps<{
   pokemon: Pokemon;
@@ -25,7 +25,7 @@ const pokemonDescription = computed(() => {
 
 const pokemonImgSrc = computed(() => {
   const defaultImg = pokemon.sprites.versions?.['generation-v']?.['black-white']?.front_default;
-  console.log('cardStyle =>', cardStyle);
+
   const images = {
     showdown:
       pokemon.sprites.versions?.['generation-v']?.['black-white']?.['animated']?.front_default,
@@ -36,14 +36,12 @@ const pokemonImgSrc = computed(() => {
 
   return images[cardStyle] ?? defaultImg;
 });
-
-console.log('pokemonImgSrc =>', pokemonImgSrc.value);
 </script>
 
 <template>
   <Card
     v-if="pokemon"
-    class="relative aspect-[0.75] min-h-[300px] h-[52.5vh] rounded-[1.5em] overflow-hidden card-shadow"
+    class="relative aspect-[0.75] min-h-[300px] max-h-[450px] rounded-[1.5em] overflow-hidden card-shadow"
   >
     <CardBackground
       :src="`/backgrounds/bg-${PokemonService.getPokemonBackground(pokemon.types[0].type.name)}.png`"

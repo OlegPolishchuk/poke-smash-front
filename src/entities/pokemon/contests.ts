@@ -23,9 +23,9 @@ export interface ContestName {
 export interface ContestEffect {
   /** The identifier for this resource. */
   id: number;
-  /** The base number of hearts the user of this move gets. */
+  /** The base number of hearts the auth of this move gets. */
   appeal: number;
-  /** The base number of hearts the user's opponent loses. */
+  /** The base number of hearts the auth's opponent loses. */
   jam: number;
   /** The result of this contest effect listed in different languages. */
   effect_entries: Effect[];

@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/ui/components/ui/select';
-import type { CardStyle } from '@/services/constants/constants.ts';
+import type { CardStyle } from '@/services/constants.ts';
 
 const { style } = defineProps<{ style: CardStyle }>();
 const emit = defineEmits<{ (e: 'onChange', id: CardStyle): void }>();

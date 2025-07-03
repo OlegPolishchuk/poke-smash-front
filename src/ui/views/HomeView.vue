@@ -2,10 +2,7 @@
 import { MAX_POKEMON_COUNT, PokemonService } from '@/services/pokemon/pokemon.service.ts';
 import { ref, watchEffect } from 'vue';
 import type { Pokemon, PokemonSpecies } from '@/entities/pokemon/pokemon.ts';
-import { Button } from '@/ui/components/ui/button';
 import PokemonCard from '@/ui/components/pokemon-card/pokemon-card.vue';
-import CardStyleSelect from '@/ui/components/card-style-select/card-style-select.vue';
-import type { CardStyle } from '@/services/constants.ts';
 import { Motion } from 'motion-v';
 import { getRandomCardAngle } from '@/lib/utils.ts';
 import SmashButton from '@/ui/components/smash-button/smash-button.vue';
@@ -13,6 +10,7 @@ import PassButton from '@/ui/components/pass-button/pass-button.vue';
 import PokemonStatistic from '@/ui/components/pokemon-statistic/pokemon-statistic.vue';
 import { usePokemonStore } from '@/stores/pokemon.store.ts';
 import { Input } from '@/ui/components/ui/input';
+import { useSettingsStore } from '@/stores/settings.store.ts';
 
 interface AnimationProps {
   scale?: number;
@@ -22,13 +20,14 @@ interface AnimationProps {
   opacity?: string | number;
 }
 
+const settingsStore = useSettingsStore();
+
 const pokemon = ref<Pokemon | null>(null);
 const pokemonSpecies = ref<PokemonSpecies | null>(null);
-const cardStyle = ref<CardStyle>('showdown');
 const cartAngle = ref(getRandomCardAngle());
 const randomPokemonId = ref(PokemonService.getRandomPokemonId());
 
-const constraintsRef = ref<HTMLDivElement>()
+const constraintsRef = ref<HTMLDivElement>();
 const initialAnimation = ref<AnimationProps>({ scale: 0, y: '-100%', x: 0 });
 const animationValue = ref<AnimationProps>({ scale: 1, y: 0, rotate: cartAngle.value });
 
@@ -91,20 +90,15 @@ const handleChangePokemon = async (action: 'pass' | 'smash') => {
 };
 
 const handleChangePokemonNumber = (event: InputEvent) => {
-  const target = (<HTMLInputElement>event.target);
+  const target = <HTMLInputElement>event.target;
   const value = target.value;
 
   pokeStore.setPrevious(pokemon.value!);
   randomPokemonId.value = +value;
-}
-
+};
 </script>
 
 <template>
-  <header class="flex items-center container py-2 relative z-99">
-    <CardStyleSelect :style="cardStyle" @on-change="(style) => (cardStyle = style)" />
-    <Button variant="link" class="ml-auto">Stats</Button>
-  </header>
   <main
     ref="constraintsRef"
     class="container flex flex-col gap-5 items-center w-full absolute top-0 left-[50%] translate-x-[-50%]"
@@ -128,7 +122,11 @@ const handleChangePokemonNumber = (event: InputEvent) => {
         }"
         :press="{ scale: 1.05, rotate: 0 }"
       >
-        <PokemonCard :pokemon="pokemon" :pokemon-species="pokemonSpecies" :card-style="cardStyle" />
+        <PokemonCard
+          :pokemon="pokemon"
+          :pokemon-species="pokemonSpecies"
+          :card-style="settingsStore.cardStyle"
+        />
       </Motion>
 
       <h3 class="scroll-m-20 text-2xl font-semibold tracking-tight flex items-center gap-2">
@@ -149,7 +147,7 @@ const handleChangePokemonNumber = (event: InputEvent) => {
         <SmashButton :pokemon-id="pokemon.id" @click="handleChangePokemon('smash')" />
       </div>
 
-      <PokemonStatistic :card-style="cardStyle" />
+      <PokemonStatistic :card-style="settingsStore.cardStyle" />
     </template>
   </main>
 </template>

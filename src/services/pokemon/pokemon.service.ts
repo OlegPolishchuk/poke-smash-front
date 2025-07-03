@@ -109,4 +109,26 @@ export const PokemonService = {
       throw new Error(error as string);
     }
   },
+
+  async getPokemonAbility(id: number | string) {
+    try {
+      const stats = await PokemonApi.getPokemonAbility(id);
+
+      return stats.data;
+    } catch (error) {
+      console.log('error =>', error);
+      throw new Error(error as string);
+    }
+  },
+
+  async getPokemonWeaknesses(id: number | string) {
+    try {
+      const weaknesses = await PokemonApi.getPokemonWeaknesses(id);
+
+      return weaknesses.data;
+    } catch (error) {
+      console.log('error =>', error);
+      throw new Error(error as string);
+    }
+  },
 };

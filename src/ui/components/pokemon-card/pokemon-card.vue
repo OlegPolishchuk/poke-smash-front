@@ -41,7 +41,9 @@ const pokemonImgSrc = computed(() => getPokemonImage({ pokemon, cardStyle }));
       <h2
         class="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0 mb-2 capitalize"
       >
-        {{ pokemon.name }}
+        <RouterLink :to="`/pokemon/${pokemon.id}`" class="hover:underline">
+          {{ pokemon.name }}
+        </RouterLink>
       </h2>
 
       <div class="flex flex-wrap items-center gap-2">

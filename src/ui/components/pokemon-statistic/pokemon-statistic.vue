@@ -21,7 +21,7 @@ const pokemonImgSrc = computed(() =>
 );
 
 const actionsCount = computed(() => {
-  const passes = toPercent(stats.value?.disliked ?? 0 );
+  const passes = toPercent(stats.value?.disliked ?? 0);
   const smashes = toPercent(stats.value?.likes ?? 0);
 
   return { passes, smashes };

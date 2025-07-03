@@ -25,6 +25,8 @@ export const badgeVariants = cva(
         rock: 'bg-stone-600 dark:stone-500',
         steel: 'bg-zinc-600 dark:zinc-500',
         water: 'bg-blue-600 dark:blue-500',
+        ice: 'bg-primary/70 dark:blue-500',
+        psychic: 'bg-zinc-600 dark:zinc-500',
 
         smash:
           'bg-secondary text-background !font-bold !rounded-[0.825rem] !py-[3px] px-[14px] text-3xl',

@@ -15,7 +15,7 @@ const indicatorBg = computed(() => (variant === 'pass' ? `bg-dislike` : 'bg-seco
   <Progress
     :model-value="value"
     :class="bg"
-    class="h-[20px]  rounded"
+    class="h-[20px] rounded"
     :indicator-class="indicatorBg + ' ' + 'rounded'"
   />
 </template>

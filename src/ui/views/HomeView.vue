@@ -28,6 +28,7 @@ const cardStyle = ref<CardStyle>('showdown');
 const cartAngle = ref(getRandomCardAngle());
 const randomPokemonId = ref(PokemonService.getRandomPokemonId());
 
+const constraintsRef = ref<HTMLDivElement>()
 const initialAnimation = ref<AnimationProps>({ scale: 0, y: '-100%', x: 0 });
 const animationValue = ref<AnimationProps>({ scale: 1, y: 0, rotate: cartAngle.value });
 
@@ -105,6 +106,7 @@ const handleChangePokemonNumber = (event: InputEvent) => {
     <Button variant="link" class="ml-auto">Stats</Button>
   </header>
   <main
+    ref="constraintsRef"
     class="container flex flex-col gap-5 items-center w-full absolute top-0 left-[50%] translate-x-[-50%]"
   >
     <h1 class="font-bold text-[calc(1rem+4vh)]">
@@ -115,6 +117,7 @@ const handleChangePokemonNumber = (event: InputEvent) => {
     <template v-if="pokemon && pokemonSpecies">
       <Motion
         class="w-fit mb-5"
+        :drag-constraints="constraintsRef"
         :initial="initialAnimation"
         :animate="animationValue"
         :transition="{

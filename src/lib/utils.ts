@@ -41,3 +41,8 @@ export function getPokemonImage({
 export function getPokemonBg(pokemon: Pokemon) {
   return `url(/backgrounds/bg-${PokemonService.getPokemonBackground(pokemon.types[0].type.name)}.png)`;
 }
+
+export function toPercent(value: number, total: number = 100 ): number {
+  if (total === 0) return 0; // защита от деления на 0
+  return (value / total) * 100;
+}

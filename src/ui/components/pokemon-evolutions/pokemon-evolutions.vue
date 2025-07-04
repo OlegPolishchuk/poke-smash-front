@@ -39,7 +39,7 @@ watchEffect(async () => {
   evolutions.value = await PokemonService.getPokemonEvolutions(evolutionsId);
   const pokemonsRes = await generatePokemonPromises(evolutions.value, pokemon.name);
 
-  const pokemons = pokemonsRes.filter(res => res.status === 'fulfilled').map(res => res.value);
+  const pokemons = pokemonsRes.filter((res) => res.status === 'fulfilled').map((res) => res.value);
 
   pokemonsQueue.value = pokemonsQueue.value
     .concat([...pokemons, pokemon])

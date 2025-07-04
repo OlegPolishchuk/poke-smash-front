@@ -11,7 +11,9 @@ const settingsStore = useSettingsStore();
 
 onMounted(() => {
   userStore.fetchMe();
+  settingsStore.initiateStore();
 });
+
 </script>
 
 <template>

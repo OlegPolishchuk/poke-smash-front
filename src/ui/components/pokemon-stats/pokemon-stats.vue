@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { decimetersToFeetInches, hectogramsToPounds } from '@/lib/utils.ts';
 import PokemonStatItem from '@/ui/components/pokemon-stats/pokemon-stat-item.vue';
-import { Mars, Venus, CircleQuestionMark } from 'lucide-vue-next';
+import { CircleQuestionMark, Mars, Venus } from 'lucide-vue-next';
 import type { Pokemon, PokemonSpecies } from '@/entities/pokemon/pokemon.ts';
 import { computed, ref, watchEffect } from 'vue';
 import { PokemonService } from '@/services/pokemon/pokemon.service.ts';
@@ -11,7 +11,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/ui/components/ui/tooltip';
-import { Button } from '@/ui/components/ui/button';
 
 const { pokemon, pokemonSpecies } = defineProps<{
   pokemon: Pokemon;
@@ -72,7 +71,7 @@ watchEffect(async () => {
       <PokemonStatItem title="Abilities">
         <template #value>
           <div>
-            <div v-for="(ability, index) in pokemon.abilities">
+            <div v-for="(ability, index) in pokemon.abilities" :key="index">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger as-child>

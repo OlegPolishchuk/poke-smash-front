@@ -5,10 +5,10 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from '@/ui/components/ui/breadcrumb';
 import { useRoute } from 'vue-router';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import { PokemonService, TYPE_COLOR_MAP } from '@/services/pokemon/pokemon.service.ts';
 import type { Pokemon, PokemonSpecies } from '@/entities/pokemon/pokemon.ts';
 import { getPokemonBg, getPokemonImage } from '@/lib/utils.ts';
@@ -16,16 +16,18 @@ import { useSettingsStore } from '@/stores/settings.store.ts';
 import { Badge } from '@/ui/components/ui/badge';
 import PokemonStats from '@/ui/components/pokemon-stats/pokemon-stats.vue';
 import PokemonPhysicStats from '@/ui/components/pokemon-stats/pokemon-physic-stats.vue';
+import PokemonEvolutions from '@/ui/components/pokemon-evolutions/pokemon-evolutions.vue';
+import PokemonWeaknesses from '@/ui/components/pokemon-stats/pokemon-weaknesses.vue';
 
 const route = useRoute();
-const pokemonId = +route.params.id;
 
 const settingsStore = useSettingsStore();
 
 const pokemon = ref<Pokemon>();
 const pokemonSpecies = ref<PokemonSpecies>();
-const weaknesses = ref<string[]>([]);
+const isLoading = ref(false);
 
+const pokemonId = computed(() => +route.params.id);
 const pokemonColor = computed(
   () => `var(--color-${TYPE_COLOR_MAP[pokemon.value?.types[0].type.name || 'default']})`,
 );
@@ -40,42 +42,23 @@ const pokemonDescription = computed(() => {
   return enText.flavor_text;
 });
 
-onMounted(async () => {
+const evolutionId = computed(() => {
+  return pokemonSpecies.value?.evolution_chain.url.split('/').reverse()[1];
+});
+
+watchEffect(async () => {
+  isLoading.value = true;
+
   const promises = await Promise.all([
-    PokemonService.getPokemon(pokemonId),
-    PokemonService.getPokemonSpecies(pokemonId),
+    PokemonService.getPokemon(pokemonId.value),
+    PokemonService.getPokemonSpecies(pokemonId.value),
   ]);
 
   pokemon.value = promises[0];
   pokemonSpecies.value = promises[1];
+
+  isLoading.value = false;
 });
-
-watch(
-  () => pokemon.value,
-  async (newPokemon) => {
-    if (!newPokemon) return;
-
-    // Создаем массив промисов с явной типизацией
-    const pr: Promise<{ weaknesses: string[] } | null>[] =
-      newPokemon.types?.map((type) => PokemonService.getPokemonWeaknesses(type.type.name)) || [];
-
-    try {
-      // Ожидаем выполнения всех промисов
-      const weaknessesRes = await Promise.all(pr);
-
-      // Фильтруем null-результаты и объединяем weaknesses
-      const allWeaknesses = weaknessesRes
-        .filter((res) => res !== null)
-        .flatMap((res) => res!.weaknesses);
-
-      // Удаляем дубликаты
-      weaknesses.value = Array.from(new Set(allWeaknesses));
-    } catch (error) {
-      console.error('Error fetching weaknesses:', error);
-    }
-  },
-  { immediate: true },
-);
 </script>
 
 <template>
@@ -109,7 +92,7 @@ watch(
           </p>
 
           <PokemonStats :pokemon="pokemon" :pokemon-species="pokemonSpecies" />
-          <PokemonPhysicStats :pokemon="pokemon" :is-loading="false" />
+          <PokemonPhysicStats :pokemon="pokemon" :is-loading="isLoading" />
         </div>
 
         <div>
@@ -140,18 +123,12 @@ watch(
               </div>
             </div>
 
-            <div class="mb-5">
-              <p class="text-xl text-muted-foreground mb-2">Weaknesses</p>
-
-              <div class="flex flex-wrap items-center gap-2 text-background">
-                <Badge v-for="(weakness, index) in weaknesses" :key="index" :variant="weakness"
-                  >{{ weakness }}
-                </Badge>
-              </div>
-            </div>
+            <PokemonWeaknesses :pokemon="pokemon" />
           </div>
         </div>
       </div>
+
+      <PokemonEvolutions :evolutions-id="evolutionId" :pokemon="pokemon" />
     </div>
   </main>
 </template>

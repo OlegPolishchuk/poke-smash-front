@@ -1,6 +1,7 @@
 import { api } from '@/api/instance.ts';
 import type { Pokemon, PokemonSpecies } from '@/entities/pokemon/pokemon.ts';
 import type { Ability } from '@/entities/pokemon/ability.ts';
+import type { EvolutionChain } from '@/entities/pokemon/evolution.ts';
 
 export interface ActionResponse {
   likes: number;
@@ -20,7 +21,7 @@ export interface PokemonStatistic {
 }
 
 export const PokemonApi = {
-  getPokemon(id: number) {
+  getPokemon(id: number | string) {
     return api.get<Pokemon>(`/api/pokemon/${id}`);
   },
 
@@ -48,5 +49,9 @@ export const PokemonApi = {
 
   getPokemonWeaknesses(pokemonId: number | string) {
     return api.get<{ weaknesses: string[] }>(`/api/pokemon/weaknesses/${pokemonId}`);
+  },
+
+  getPokemonEvolutions(pokemonId: number | string) {
+    return api.get<EvolutionChain>(`/api/pokemon/evolutions/${pokemonId}`);
   },
 };

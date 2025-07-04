@@ -45,7 +45,7 @@ export const TYPE_COLOR_MAP: Record<string, string> = {
 };
 
 export const PokemonService = {
-  async getPokemon(id?: number) {
+  async getPokemon(id?: number | string) {
     try {
       const pokemon = await PokemonApi.getPokemon(id ?? this.getRandomPokemonId());
 
@@ -126,6 +126,17 @@ export const PokemonService = {
       const weaknesses = await PokemonApi.getPokemonWeaknesses(id);
 
       return weaknesses.data;
+    } catch (error) {
+      console.log('error =>', error);
+      throw new Error(error as string);
+    }
+  },
+
+  async getPokemonEvolutions(id: number | string) {
+    try {
+      const evolutions = await PokemonApi.getPokemonEvolutions(id);
+
+      return evolutions.data;
     } catch (error) {
       console.log('error =>', error);
       throw new Error(error as string);

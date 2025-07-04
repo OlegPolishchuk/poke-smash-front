@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-const {value} = defineProps<{
+const { value } = defineProps<{
   value: number;
 }>();
 
 const height = ref(0);
 
 onMounted(() => {
-  setTimeout(() => height.value = value, 100)
-})
+  setTimeout(() => (height.value = value), 100);
+});
 </script>
 
 <template>

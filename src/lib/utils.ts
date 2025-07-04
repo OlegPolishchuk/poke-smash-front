@@ -45,9 +45,7 @@ export function getPokemonBg(pokemon: Pokemon) {
 export function toPercent(value: number, total: number = 100): number {
   if (total === 0) return 0; // защита от деления на 0
 
-  const res = (value / total) * 100;
-  console.log('res =>', res);
-  return res;
+  return (value / total) * 100;
 }
 
 export function hectogramsToPounds(hectograms: number) {

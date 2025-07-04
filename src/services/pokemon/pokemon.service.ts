@@ -40,6 +40,8 @@ export const TYPE_COLOR_MAP: Record<string, string> = {
   rock: 'stone-600',
   steel: 'zinc-600',
   water: 'blue-600',
+  ice: 'primary',
+  psychic: 'zinc-600',
 
   default: 'foreground',
 };

@@ -21,10 +21,10 @@ const pokemonsQueue = ref<Pokemon[]>([]);
 
 const generatePokemonPromises = async (evolutions: EvolutionChain, pokemonName: string) => {
   const first = evolutions.chain.species.name;
-  const second = evolutions.chain.evolves_to[0].species.name;
-  const third = evolutions.chain.evolves_to[0].evolves_to[0]?.species.name;
+  const second = evolutions.chain.evolves_to[0]?.species.name;
+  const third = evolutions.chain.evolves_to[0]?.evolves_to[0]?.species.name;
 
-  return Promise.all(
+  return Promise.allSettled(
     [first, second, third]
       .filter((name) => name && name !== pokemonName)
       .map((name) => PokemonService.getPokemon(name)),
@@ -37,7 +37,9 @@ watchEffect(async () => {
   isLoading.value = true;
 
   evolutions.value = await PokemonService.getPokemonEvolutions(evolutionsId);
-  const pokemons = await generatePokemonPromises(evolutions.value, pokemon.name);
+  const pokemonsRes = await generatePokemonPromises(evolutions.value, pokemon.name);
+
+  const pokemons = pokemonsRes.filter(res => res.status === 'fulfilled').map(res => res.value);
 
   pokemonsQueue.value = pokemonsQueue.value
     .concat([...pokemons, pokemon])

@@ -25,7 +25,8 @@ export function getPokemonImage({
   pokemon: Pokemon;
   cardStyle: CardStyle;
 }) {
-  const defaultImg = pokemon.sprites.versions?.['generation-v']?.['black-white']?.front_default;
+  // const defaultImg = pokemon.sprites.versions?.['generation-v']?.['black-white']?.front_default;
+  const defaultImg = pokemon.sprites.front_default;
 
   const images = {
     showdown:

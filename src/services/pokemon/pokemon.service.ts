@@ -1,4 +1,5 @@
 import { PokemonApi } from '@/api/pokemon/pokemon.api.ts';
+import type { PaginatedParams } from '@/api/types.ts';
 
 export const MAX_POKEMON_COUNT = 1025;
 
@@ -141,6 +142,20 @@ export const PokemonService = {
       return evolutions.data;
     } catch (error) {
       console.log('error =>', error);
+      throw new Error(error as string);
+    }
+  },
+
+  async getPokemonList(params?: PaginatedParams) {
+    const limit = params?.limit ?? 10;
+    const offset = params?.offset ?? 0;
+
+    try {
+      const list = await PokemonApi.getPokemonList({ limit, offset });
+
+      return list.data;
+    } catch (error) {
+      console.log('error in getPokemonList =>', error);
       throw new Error(error as string);
     }
   },

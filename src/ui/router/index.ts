@@ -10,9 +10,22 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/statistic',
-      name: 'about',
+      path: '/statistics',
+      name: 'statistics',
       component: () => import('../views/StatisticView.vue'),
+      redirect: { name: 'all' },
+      children: [
+        {
+          path: 'all',
+          name: 'all',
+          component: () => import('../components/pokemon-lists/pokemon-list-all.vue'),
+        },
+        {
+          path: 'top-ten',
+          name: 'top-ten',
+          component: () => import('../components/pokemon-lists/pokemon-list-top-ten.vue'),
+        },
+      ],
     },
     {
       path: '/pokemon/:id',

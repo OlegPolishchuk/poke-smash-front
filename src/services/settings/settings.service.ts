@@ -21,5 +21,5 @@ export const SettingsService = {
     const validStyles: CardStyle[] = ['showdown', 'hd', '3d', 'clean'];
 
     return validStyles.includes(style);
-  }
+  },
 };

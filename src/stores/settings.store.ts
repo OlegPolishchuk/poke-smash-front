@@ -12,7 +12,7 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   function initiateStore() {
-    cardStyle.value = SettingsService.getCardStyle()
+    cardStyle.value = SettingsService.getCardStyle();
   }
 
   return { cardStyle, changeCardStyle, initiateStore };

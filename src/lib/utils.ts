@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { Pokemon } from '@/entities/pokemon/pokemon.ts';
 import type { CardStyle } from '@/services/constants.ts';
-import { PokemonService } from '@/services/pokemon/pokemon.service.ts';
+import { PokemonService, TYPE_COLOR_MAP } from '@/services/pokemon/pokemon.service.ts';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -43,6 +43,10 @@ export function getPokemonBg(pokemon: Pokemon) {
   return `url(/backgrounds/bg-${PokemonService.getPokemonBackground(pokemon.types[0].type.name)}.png)`;
 }
 
+export function getPokemonColor(pokemon: Pokemon | undefined) {
+  return `var(--color-${TYPE_COLOR_MAP[pokemon?.types[0].type.name || 'default']})`;
+}
+
 export function toPercent(value: number, total: number = 100): number {
   if (total === 0) return 0; // защита от деления на 0
 
@@ -77,4 +81,26 @@ export function decimetersToFeetInches(decimeters: number) {
   const formattedInches = inches < 10 ? `0${inches}` : `${inches}`;
 
   return `${feet}' ${formattedInches}"`;
+}
+
+export function getCycledIndex(index: number, max: number): number {
+  return index % max;
+}
+
+export function getMaxValue(val1: number, val2: number) {
+  return Math.max(val1, val2);
+}
+
+export function getMinValue(val1: number, val2: number) {
+  return Math.min(val1, val2);
+}
+
+export function getPartsPercentage(a: number, b: number): [number, number] {
+  const total = a + b;
+  if (total === 0) return [0, 0];
+
+  const percentA = (a / total) * 100;
+  const percentB = (b / total) * 100;
+
+  return [percentA, percentB];
 }

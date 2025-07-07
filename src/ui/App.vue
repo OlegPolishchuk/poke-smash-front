@@ -13,7 +13,6 @@ onMounted(() => {
   userStore.fetchMe();
   settingsStore.initiateStore();
 });
-
 </script>
 
 <template>
@@ -22,7 +21,9 @@ onMounted(() => {
       :style="settingsStore.cardStyle"
       @on-change="(style) => settingsStore.changeCardStyle(style)"
     />
-    <Button variant="link" class="ml-auto">Stats</Button>
+    <Button as-child class="ml-auto">
+      <RouterLink to="/statistics">Stats</RouterLink>
+    </Button>
   </header>
 
   <h1 v-if="userStore.loading">Loading...</h1>

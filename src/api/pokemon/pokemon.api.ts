@@ -2,6 +2,7 @@ import { api } from '@/api/instance.ts';
 import type { Pokemon, PokemonSpecies } from '@/entities/pokemon/pokemon.ts';
 import type { Ability } from '@/entities/pokemon/ability.ts';
 import type { EvolutionChain } from '@/entities/pokemon/evolution.ts';
+import type { PaginatedList, PaginatedParams } from '@/api/types.ts';
 
 export interface ActionResponse {
   likes: number;
@@ -18,6 +19,11 @@ export interface PokemonStatistic {
   created_at: string;
   updated_at: string;
   max_action_count: number;
+}
+
+export interface PokemonWithStats extends Pokemon {
+  likes: number;
+  dislikes: number;
 }
 
 export const PokemonApi = {
@@ -53,5 +59,11 @@ export const PokemonApi = {
 
   getPokemonEvolutions(pokemonId: number | string) {
     return api.get<EvolutionChain>(`/api/pokemon/evolutions/${pokemonId}`);
+  },
+
+  getPokemonList(params: PaginatedParams) {
+    return api.get<PaginatedList<PokemonWithStats>>('/api/pokemon/list', {
+      params,
+    });
   },
 };

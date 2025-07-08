@@ -7,14 +7,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/ui/components/ui/breadcrumb';
-import { useRoute, useRouter } from 'vue-router';
-
-const router = useRouter();
-const route = useRoute();
 
 const prevRoute = window.history.state.back;
-
-console.log('prevRoute', prevRoute);
 </script>
 
 <template>

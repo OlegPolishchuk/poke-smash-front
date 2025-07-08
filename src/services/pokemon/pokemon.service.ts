@@ -159,4 +159,15 @@ export const PokemonService = {
       throw new Error(error as string);
     }
   },
+
+  async getPokemonListTopTen() {
+    try {
+      const list = await PokemonApi.getPokemonListTopTen();
+
+      return list.data;
+    } catch (error) {
+      console.log('error in getPokemonListTopTen =>', error);
+      throw new Error(error as string);
+    }
+  },
 };

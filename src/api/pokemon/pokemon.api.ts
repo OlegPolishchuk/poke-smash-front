@@ -66,4 +66,8 @@ export const PokemonApi = {
       params,
     });
   },
+
+  getPokemonListTopTen() {
+    return api.get<PokemonWithStats[]>('/api/pokemon/list/top-ten');
+  },
 };

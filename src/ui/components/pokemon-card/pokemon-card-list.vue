@@ -38,20 +38,22 @@ const settingsStore = useSettingsStore();
       <div class="flex items-center justify-between">
         <p class="text-dislike">
           Passes
-          <span class="text-foreground">{{
-            getPartsPercentage(pokemon.dislikes, pokemon.likes)[0].toFixed(1)
-          }}%</span>
+          <span class="text-foreground"
+            >{{ getPartsPercentage(pokemon.dislikes, pokemon.likes)[0].toFixed(1) }}%</span
+          >
         </p>
         <p class="text-secondary">
           Smashes
-          <span class="text-foreground">{{
-            getPartsPercentage(pokemon.likes, pokemon.dislikes)[0].toFixed(1)
-          }}%</span>
+          <span class="text-foreground"
+            >{{ getPartsPercentage(pokemon.likes, pokemon.dislikes)[0].toFixed(1) }}%</span
+          >
         </p>
       </div>
 
       <div class="flex items-center gap-2">
-        <small class="text-sm font-medium leading-none text-foreground"> {{ pokemon.dislikes }}</small>
+        <small class="text-sm font-medium leading-none text-foreground">
+          {{ pokemon.dislikes }}</small
+        >
         <Progress
           :model-value="getPartsPercentage(pokemon.likes, pokemon.dislikes)[0]"
           :class="
